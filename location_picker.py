@@ -46,4 +46,4 @@ class LocationField(models.CharField):
             x, y = value.split(',')
             float(x.strip()), float(y.strip())
         except:
-            raise ValidationError('Bad coordinate format - should be ll,la - eg. 43.5343,172.6236')
+            raise ValidationError('Bad coordinate format - should be ll,la. Example: 43.5343,172.6236')
