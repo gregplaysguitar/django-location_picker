@@ -1,17 +1,22 @@
 from django import forms
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
+
+
+# See readme.markdown
+STATIC_URL = getattr(settings, 'LOCATION_PICKER_STATIC_URL', '%slocation_picker/' % settings.STATIC_URL)
 
 class LocationPickerWidget(forms.TextInput):
     class Media:
         css = {
             'all': (
-                settings.MEDIA_URL + 'c/location_picker.css',
+            '%slocation_picker.css' % STATIC_URL,
             )
         }
         js = (
-            'http://www.google.com/jsapi?key=' + settings.GOOGLE_MAPS_API_KEY,
-            settings.MEDIA_URL + 'j/lib/jquery.location_picker.js',
+            'http://maps.google.com/maps/api/js?sensor=false',
+            '%sjquery.location_picker.js' % STATIC_URL,
         )
 
     def __init__(self, language=None, attrs=None):
@@ -30,7 +35,7 @@ class LocationField(models.CharField):
         if not 'max_length' in kwargs:
             kwargs['max_length'] = 255
         super(LocationField, self).__init__(*args, **kwargs)
-    
+
     def formfield(self, **kwargs):
         kwargs['widget'] = LocationPickerWidget
         return super(LocationField, self).formfield(**kwargs)
@@ -43,3 +48,11 @@ class LocationField(models.CharField):
         args, kwargs = introspector(self)
         # That's our definition!
         return (field_class, args, kwargs)
+
+    def validate(self, value, obj):
+        super(LocationField, self).validate(value, obj)
+        try:
+            x, y = value.split(',')
+            float(x.strip()), float(y.strip())
+        except:
+            raise ValidationError('Bad coordinate format - should be ll,la. Example: 43.5343,172.6236')
