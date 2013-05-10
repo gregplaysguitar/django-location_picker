@@ -5,8 +5,7 @@
    not using staticfiles, you'll need to set LOCATION_PICKER_STATIC_URL to wherever you put
    the location_picker files.
 3. Use in your models.py as follows:
-
-    from location_picker import LocationField
-    class MyModel(models.Model):
-        location = LocationField()
+        from location_picker import LocationField
+        class MyModel(models.Model):
+            location = LocationField()
 
