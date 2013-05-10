@@ -15,7 +15,7 @@ class LocationPickerWidget(forms.TextInput):
             )
         }
         js = (
-            'http://maps.google.com/maps/api/js?sensor=false',
+            '//maps.google.com/maps/api/js?sensor=false',
             '%sjquery.location_picker.js' % STATIC_URL,
         )
 
