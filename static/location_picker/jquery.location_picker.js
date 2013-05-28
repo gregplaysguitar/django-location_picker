@@ -5,10 +5,11 @@ $(document).unload(function(){
 $(document).ready(function(){
     $("input.location_picker").each(function (i) {
         var me = $(this),
-            mapDiv = $('<div>').insertBefore(me).addClass('location_picker_map');
-
-        me.css('display','none');
-
+            wrap = $('<div>').insertBefore(me).addClass('location-picker-wrap'),
+            mapDiv = $('<div>').appendTo(wrap).addClass('location-picker-map');
+        
+        me.prependTo(wrap);
+        
         var lat = -43.531065;
         var lng = 172.636671;
         if (me.val().split(/,\s*/).length == 2) {
@@ -39,5 +40,13 @@ $(document).ready(function(){
             me.val(e.latLng.lat() + ',' + e.latLng.lng());
             marker.setPosition(e.latLng);
         });
+        function update() {
+            var bits = $(this).val().split(/,\s*/),
+                latLng = new google.maps.LatLng(parseFloat(bits[0]), parseFloat(bits[1]));
+            marker.setPosition(latLng);
+            map.setCenter(latLng);
+        }
+        me.change(update);
+        me.keyup(update);
     });
 });
