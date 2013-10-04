@@ -22,12 +22,12 @@ $(document).ready(function(){
         var map = new google.maps.Map(mapDiv[0], {
             zoom: 15,
             center: center,
-            scaleControl: true,
-            navigationControl: true,
-            navigationControlOptions: {
-                position: google.maps.ControlPosition.RIGHT
-            },
-            disableDefaultUI: true,
+            // scaleControl: false,
+            // navigationControl: false,
+            // navigationControlOptions: {
+            //     position: google.maps.ControlPosition.RIGHT
+            // },
+            disableDefaultUI: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
@@ -50,3 +50,5 @@ $(document).ready(function(){
         me.keyup(update);
     });
 });
+
+$.noConflict();

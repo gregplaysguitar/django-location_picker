@@ -4,8 +4,9 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 
 
-# See readme.markdown
+# Set this if not using staticfiles
 STATIC_URL = getattr(settings, 'LOCATION_PICKER_STATIC_URL', '%slocation_picker/' % settings.STATIC_URL)
+
 
 class LocationPickerWidget(forms.TextInput):
     class Media:
@@ -16,7 +17,8 @@ class LocationPickerWidget(forms.TextInput):
         }
         js = (
             '//maps.google.com/maps/api/js?sensor=false',
-            '%sjquery.location_picker.js' % STATIC_URL,
+            '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
+            '%slocation_picker.js' % STATIC_URL,
         )
 
     def __init__(self, language=None, attrs=None):
